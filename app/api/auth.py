@@ -1,5 +1,5 @@
 from flask import request, jsonify, Blueprint
-from flask_jwt_extended import create_access_token, create_refresh_token
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from ..models import User
 import mongoengine.errors as errors
 from ..extensions import bcrypt
@@ -56,3 +56,10 @@ def login():
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@auth_bp.route('/refresh', methods=['POST'])
+@jwt_required()
+def refresh():
+    identity = get_jwt_identity()
+    access_token = create_access_token(identity=identity)
+    return jsonify(access_token=access_token), 200
