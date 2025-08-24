@@ -4,7 +4,7 @@ import datetime
 class User(db.Document):
     email = db.StringField(required=True, unique=True)
     password = db.StringField(required=True, min_length=8)
-    created_at = db.DateTimeField(default=datetime.datetime.utcnow)
+    created_at = db.DateTimeField(default=datetime.datetime.now(datetime.UTC))
     
 class Item(db.Document):
     owner = db.ReferenceField(User, required=True)
@@ -12,7 +12,7 @@ class Item(db.Document):
     item_type = db.StringField(choices=('bookmark', 'snippet', 'note'), required=True)
     content = db.StringField(required=True)
     tags = db.ListField(db.StringField(max_length=50))
-    created_at = db.DateTimeField(default=datetime.datetime.utcnow)
+    created_at = db.DateTimeField(default=datetime.datetime.now(datetime.UTC))
         
     def to_dict(self):
         return{

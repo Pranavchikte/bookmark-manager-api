@@ -23,7 +23,7 @@ def register():
         
         new_user.save()
         
-        return jsonify({'msg': "User created successfully"}), 201
+        return jsonify({'msg': "User created successfully."}), 201
     
     except errors.NotUniqueError:
         return jsonify({"error": "Email already exists"}),409
